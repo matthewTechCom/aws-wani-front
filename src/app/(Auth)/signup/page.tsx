@@ -81,8 +81,8 @@ export default function SignUp() {
             >
               登録
             </button>
-            <div>
-              <Link href={"/login"}>すでにアカウントをお持ちの場合</Link>
+            <div className='border-t-1 text-slate-300 p-1 m-1'>
+              <Link href={"/login"} className='text-slate-500 hover:text-slate-900'>すでにアカウントをお持ちの場合</Link>
             </div>
           </>
         ) : (
