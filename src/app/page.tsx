@@ -1,8 +1,9 @@
 "use client"
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DailyReport as DailyReportType } from './types/report';
 import { DailyReport } from "./components/DailyReport";
 import { Calendar } from "./components/Calender";
+import { useUser } from "./context/UserContext";
 
 //ダミーデータ
 const sampleReports: { [key: string]: DailyReportType } = {
@@ -14,6 +15,8 @@ const sampleReports: { [key: string]: DailyReportType } = {
 };
 
 export default function Home() {
+  const { accessToken, email } = useUser();
+  const [message, setMessage] = useState('');
   const [selectedDate, setSelectedDate] = React.useState(new Date());
 
   const handleDateSelect = (date: Date) => {
@@ -24,8 +27,27 @@ export default function Home() {
     const dateString = date.toISOString().split('T')[0];
     return sampleReports[dateString];
   };
+
+  useEffect(() => {
+    if (!accessToken) return;
+  
+    fetch("http://localhost:8080/api/user", {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(text);
+        }
+        return res.json();
+      })
+      .then((data) => setMessage(data.message))
+      .catch((err) => console.error("Fetch error:", err));
+  }, [accessToken]);
+  
   return (
     <>
+
       <div className="min-h-screen bg-gray-100">
         <header className="bg-white border-b">
           <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">

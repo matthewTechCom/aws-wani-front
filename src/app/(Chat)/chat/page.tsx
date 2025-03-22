@@ -1,6 +1,7 @@
 "use client"
 
 import ChatMessage from '@/app/(Chat)/components/ChatMessage'
+import { useEffect } from 'react'
 
 type Props = {
   params: {
@@ -13,7 +14,7 @@ type Message = {
     role: 'user' | 'ai'
     content: string
   }
-
+  
 const dummyMessages: Message[] = [
   { id: 1, role: 'user', content: 'こんにちは！' },
   { id: 2, role: 'ai', content: 'こんにちは、何かお手伝いできますか？' },
@@ -22,6 +23,11 @@ const dummyMessages: Message[] = [
 
 export default function ChatPage({ params }: Props) {
   const userId = params.id?.[0]
+  useEffect(() => {
+    fetch("http://localhost:8080/api/hello")
+      .then(res => res.text())
+      .then(console.log); // → こんにちは！Goサーバーからのレスポンスです
+  }, []);
 
   return (
     <main className="flex flex-col h-screen bg-gray-100 p-4">

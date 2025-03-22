@@ -19,4 +19,8 @@ import {
     CognitoUserAttribute,
     AuthenticationDetails,
   };
+
+  export const getCurrentUser = () => {
+    return userPool.getCurrentUser();
+  };
   

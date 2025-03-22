@@ -1,20 +1,28 @@
 'use client';
 
 import React, { useState } from 'react';
-import { CognitoUser, AuthenticationDetails, userPool } from '@/app/lib/cognito';
+import {
+  CognitoUser,
+  AuthenticationDetails,
+  userPool,
+} from '@/app/lib/cognito'; // あなたのcognito設定ファイル
+import { useUser } from '@/app/context/UserContext'; // Contextをimport
+import { useRouter } from 'next/navigation'; // 任意で画面遷移したい場合に使用
 
 export default function Login() {
-  const [email, setEmail] = useState('');
+  const [inputEmail, setInputEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { setAccessToken, setEmail } = useUser(); // Contextからsetterを取得
+  const router = useRouter(); // 画面遷移したいとき用（任意）
 
   const handleLogin = () => {
     const userData = {
-      Username: email,
+      Username: inputEmail,
       Pool: userPool,
     };
 
     const authDetails = new AuthenticationDetails({
-      Username: email,
+      Username: inputEmail,
       Password: password,
     });
 
@@ -22,31 +30,42 @@ export default function Login() {
 
     cognitoUser.authenticateUser(authDetails, {
       onSuccess: (result) => {
-        const accessToken = result.getAccessToken().getJwtToken();
-        console.log('Login success:', accessToken);
-        // このトークンを使ってAPI通信する
+        const token = result.getIdToken().getJwtToken();
+        const claims = result.getIdToken().decodePayload();
+
+        // ✅ Contextに格納
+        setAccessToken(token);
+        setEmail(claims.email);
+
+        console.log('✅ Login success:', claims.email);
+        alert(`ようこそ ${claims.email} さん！`);
+
+        // 任意でページ遷移
+        router.push('/'); // ← 任意
       },
+
       onFailure: (err) => {
-        console.error('Login failed:', err);
+        console.error('❌ Login failed:', err);
+        alert('ログインに失敗しました');
       },
     });
   };
 
   return (
-    <div>
+    <div style={{ padding: 20 }}>
       <h2>ログイン</h2>
       <input
         type="email"
         placeholder="メールアドレス"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        value={inputEmail}
+        onChange={(e) => setInputEmail(e.target.value)}
+      /><br />
       <input
         type="password"
         placeholder="パスワード"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-      />
+      /><br />
       <button onClick={handleLogin}>ログイン</button>
     </div>
   );
