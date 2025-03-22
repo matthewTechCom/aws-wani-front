@@ -27,7 +27,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     const user = getCurrentUser();
     if (!user) return;
 
-    user.getSession((err, session: CognitoUserSession | null) => {
+    user.getSession((err: Error, session: CognitoUserSession | null) => {
       if (err || !session?.isValid()) return;
 
       setAccessToken(session.getAccessToken().getJwtToken());

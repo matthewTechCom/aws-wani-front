@@ -69,6 +69,7 @@ export default function Home() {
         <header className="bg-white border-b">
           <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
             <h1 className="text-xl font-semibold">ホーム</h1>
+            <h2 className="text-lg mb-4 text-gray-700">{message}</h2>
           </div>
         </header>
 
