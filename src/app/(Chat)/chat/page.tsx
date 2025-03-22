@@ -8,7 +8,13 @@ type Props = {
   }
 }
 
-const dummyMessages = [
+type Message = {
+    id: number
+    role: 'user' | 'ai'
+    content: string
+  }
+
+const dummyMessages: Message[] = [
   { id: 1, role: 'user', content: 'こんにちは！' },
   { id: 2, role: 'ai', content: 'こんにちは、何かお手伝いできますか？' },
   { id: 3, role: 'user', content: 'おすすめの本は？' },
