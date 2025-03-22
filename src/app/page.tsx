@@ -4,6 +4,7 @@ import { DailyReport as DailyReportType } from './types/report';
 import { DailyReport } from "./components/DailyReport";
 import { Calendar } from "./components/Calender";
 import { useUser } from "./context/UserContext";
+import { useRouter } from "next/navigation";
 
 //ダミーデータ
 const sampleReports: { [key: string]: DailyReportType } = {
@@ -15,9 +16,10 @@ const sampleReports: { [key: string]: DailyReportType } = {
 };
 
 export default function Home() {
-  const { accessToken, email } = useUser();
+  const { accessToken } = useUser();
   const [message, setMessage] = useState('');
   const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const router = useRouter(); // ← 追加
 
   const handleDateSelect = (date: Date) => {
     setSelectedDate(date);
@@ -29,7 +31,12 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (!accessToken) return;
+    if (accessToken === undefined) return;
+  
+    if (!accessToken) {
+      router.push("/login");
+      return;
+    }
   
     fetch("http://localhost:8080/api/user", {
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -37,17 +44,27 @@ export default function Home() {
       .then(async (res) => {
         if (!res.ok) {
           const text = await res.text();
+  
+          if (res.status === 401 || text.includes("Invalid token")) {
+            console.warn("アクセストークンが無効です。ログイン画面へ遷移します。");
+            router.push("/login");
+            return;
+          }
+  
           throw new Error(text);
         }
         return res.json();
       })
-      .then((data) => setMessage(data.message))
-      .catch((err) => console.error("Fetch error:", err));
-  }, [accessToken]);
+      .then((data) => {
+        if (data) setMessage(data.message);
+      })
+      .catch((err) => console.error("Fetch error:", err.message));
+  }, [accessToken, router]);
+  
+  
   
   return (
     <>
-
       <div className="min-h-screen bg-gray-100">
         <header className="bg-white border-b">
           <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">

@@ -6,8 +6,11 @@ import {
   userPool,
   CognitoUser,
 } from '@/app/lib/cognito';
+import { useRouter } from 'next/navigation'; // ← 追加
+import Link from 'next/link';
 
 export default function SignUp() {
+  const router = useRouter(); // ← 追加
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmationCode, setConfirmationCode] = useState('');
@@ -48,42 +51,62 @@ export default function SignUp() {
 
       console.log('Confirm success:', result);
       alert('登録完了！ログインしてください。');
-      setStep('signup');
+      router.push("/login"); // ← ログイン画面に遷移
     });
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      {step === 'signup' ? (
-        <>
-          <h2>サインアップ</h2>
-          <input
-            type="email"
-            placeholder="メールアドレス"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          /><br />
-          <input
-            type="password"
-            placeholder="パスワード（8文字以上）"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          /><br />
-          <button onClick={handleSignUp}>登録</button>
-        </>
-      ) : (
-        <>
-          <h2>確認コードを入力</h2>
-          <p>メールに届いた確認コードを入力してください。</p>
-          <input
-            type="text"
-            placeholder="確認コード"
-            value={confirmationCode}
-            onChange={(e) => setConfirmationCode(e.target.value)}
-          /><br />
-          <button onClick={handleConfirm}>確認</button>
-        </>
-      )}
+    <div className="h-screen flex justify-center items-center bg-gray-100 dark:bg-gray-900 transition-colors">
+      <div className="bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-md p-8 w-80">
+        {step === 'signup' ? (
+          <>
+            <h2 className="text-2xl font-bold mb-6 text-center">サインアップ</h2>
+            <input
+              type="email"
+              placeholder="メールアドレス"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="mb-4 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded w-full bg-white dark:bg-gray-700 text-black dark:text-white"
+            />
+            <input
+              type="password"
+              placeholder="パスワード（8文字以上）"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="mb-6 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded w-full bg-white dark:bg-gray-700 text-black dark:text-white"
+            />
+            <button
+              onClick={handleSignUp}
+              className="bg-purple-400 hover:bg-purple-500 text-white px-4 py-2 rounded w-full transition"
+            >
+              登録
+            </button>
+            <div>
+              <Link href={"/login"}>すでにアカウントをお持ちの場合</Link>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2 className="text-2xl font-bold mb-4 text-center">確認コードを入力</h2>
+            <p className="text-sm mb-4 text-center text-gray-600 dark:text-gray-300">
+              メールに届いた確認コードを入力してください。
+            </p>
+            <input
+              type="text"
+              placeholder="確認コード"
+              value={confirmationCode}
+              onChange={(e) => setConfirmationCode(e.target.value)}
+              className="mb-6 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded w-full bg-white dark:bg-gray-700 text-black dark:text-white"
+            />
+            <button
+              onClick={handleConfirm}
+              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded w-full transition"
+            >
+              確認
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 }

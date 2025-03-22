@@ -87,7 +87,7 @@ export function Calendar({ selectedDate, onDateSelect }: CalendarProps) {
               onClick={() => onDateSelect(day)}
               className={`h-10 w-full rounded-lg flex items-center justify-center text-base ${
                 isSelected 
-                  ? 'bg-blue-600 text-white font-medium' 
+                  ? 'bg-purple-500 text-white font-medium' 
                   : 'hover:bg-gray-100'
               }`}
             >
