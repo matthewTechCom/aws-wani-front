@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }}
           >
             <Image
-              src="/loading.gif"
+              src="/loading3.gif"
               alt="Loading"
               width={300}
               height={300}
