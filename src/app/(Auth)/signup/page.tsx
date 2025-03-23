@@ -56,34 +56,60 @@ export default function SignUp() {
   };
 
   return (
-    <div className="h-screen flex justify-center items-center bg-gray-100 dark:bg-gray-900 transition-colors">
-      <div className="bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-md p-8 w-80">
+    <div className="min-h-screen bg-gradient-to-b from-green-50 to-blue-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-md p-6 space-y-6 relative overflow-hidden bg-white">
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 to-blue-400" />
         {step === 'signup' ? (
           <>
-            <h2 className="text-2xl font-bold mb-6 text-center">サインアップ</h2>
-            <input
-              type="email"
-              placeholder="メールアドレス"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mb-4 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded w-full bg-white dark:bg-gray-700 text-black dark:text-white"
+          <div className="text-center space-y-2">
+            <img
+              src="/wani.jpg"
+              alt="Cute Dinosaur"
+              className="w-24 h-24 mx-auto rounded-full mb-4 border-4 border-green-100"
             />
-            <input
-              type="password"
-              placeholder="パスワード（8文字以上）"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mb-6 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded w-full bg-white dark:bg-gray-700 text-black dark:text-white"
-            />
-            <button
+            <h1 className="text-2xl font-bold text-gray-900">サインアップ</h1>
+            <p className="text-sm text-gray-500">新しい冒険を始めましょう！</p>
+          </div>
+
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label htmlFor="email">メールアドレス</label>
+              <input
+                id="email"
+                type="email"
+                placeholder="example@email.com"
+                className="w-full border border-slate-500 rounded-s-sm"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="password">パスワード</label>
+              <div className="relative">
+                <input
+                  id="password"
+                  type="password"
+                  placeholder="8文字以上のパスワード"
+                  className="w-full pr-10 border border-slate-500  rounded-s-sm"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+            <button 
+              className="w-full my-3 bg-gradient-to-r from-green-400 to-blue-400 hover:from-green-500 hover:to-blue-500 text-white rounded-4xl"
               onClick={handleSignUp}
-              className="bg-purple-400 hover:bg-purple-500 text-white px-4 py-2 rounded w-full transition"
             >
               登録
             </button>
-            <div className='border-t-1 text-slate-300 p-1 m-1'>
-              <Link href={"/login"} className='text-slate-500 hover:text-slate-900'>すでにアカウントをお持ちの場合</Link>
+              </div>
             </div>
+            <p className="text-center text-sm text-gray-500">
+              すでにアカウントをお持ちの場合は{" "}
+              <Link href="/login" className="text-blue-500 hover:text-blue-600 font-medium">
+                ログイン
+              </Link>
+            </p>
+          </div>
           </>
         ) : (
           <>

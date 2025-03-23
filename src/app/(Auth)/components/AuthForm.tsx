@@ -1,11 +1,7 @@
 "use client"
-import { useState } from "react";
 import "./AuthForm.css"
 
 export default function UserAuthForm() {
-
-    const [isGithubLoading, setIsGithubLoading] = useState<boolean>(false)
-    const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false)
 
     return(
             <div className="login-form-container">

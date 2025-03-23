@@ -60,34 +60,64 @@ export default function Login() {
   };
 
   return (
-    <div className="h-screen flex justify-center items-center bg-gray-100">
-      <div className="flex flex-col justify-center items-center p-8 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-6">ログイン</h2>
-        <input
-          type="email"
-          placeholder="メールアドレス"
-          value={inputEmail}
-          onChange={(e) => setInputEmail(e.target.value)}
-          className="mb-4 px-4 py-2 border border-gray-300 rounded w-64"
+    <div className="min-h-screen bg-gradient-to-b from-green-50 to-blue-50 flex items-center justify-center p-4">
+    <div className="w-full max-w-md p-6 space-y-6 relative overflow-hidden bg-white">
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 to-blue-400" />
+      
+      <div className="text-center space-y-2">
+        <img
+          src="/wani.jpg"
+          alt="Cute Dinosaur"
+          className="w-24 h-24 mx-auto rounded-full mb-4 border-4 border-green-100"
         />
-        <input
-          type="password"
-          placeholder="パスワード"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="mb-6 px-4 py-2 border border-gray-300 rounded w-64"
-        />
-        <button
-          onClick={handleLogin}
-          className="bg-purple-400 hover:bg-purple-500 text-white px-6 py-2 rounded transition"
-        >
-          送信
-        </button>
-        <div>
-            <Link href={"/signup"}>アカウントをお持ちでないですか？</Link>
-        </div>
+        <h1 className="text-2xl font-bold text-gray-900">ログイン</h1>
+        <p className="text-sm text-gray-500">さあ始めましょう！</p>
       </div>
+
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <label htmlFor="email">メールアドレス</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="example@email.com"
+            className="w-full border border-slate-500 rounded-s-sm"
+            value={inputEmail}
+            onChange={(e) => setInputEmail(e.target.value)}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="password">パスワード</label>
+          <div className="relative">
+            <input
+              id="password"
+              type="password"
+              placeholder="8文字以上のパスワード"
+              className="w-full pr-10 border border-slate-500 rounded-s-sm"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button 
+              className="w-full my-4 bg-gradient-to-r from-green-400 to-blue-400 hover:from-green-500 hover:to-blue-500 text-white rounded-4xl" 
+              onClick={handleLogin}
+            >
+              登録
+            </button>
+          </div>
+        </div>
+        <p className="text-center text-sm text-gray-500">
+          まだアカウントをお持ちでないですか？{" "}
+          <Link href="/signup" className="text-blue-500 hover:text-blue-600 font-medium">
+            サインアップ
+          </Link>
+        </p>
+      </div>
+
+      <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-green-100 rounded-full opacity-50" />
+      <div className="absolute -top-20 -left-20 w-40 h-40 bg-blue-100 rounded-full opacity-50" />
     </div>
+  </div>
   );
   
 }
